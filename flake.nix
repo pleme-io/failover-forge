@@ -27,7 +27,13 @@
       src = self;
       repo = "pleme-io/failover-forge";
       tag = "0.1.0";
-      architectures = [ "amd64" "arm64" ];
+      # Use substrate's default architectures (amd64 + arm64). Per
+      # substrate/lib/service/image-release.nix the standard tagging is
+      # `<arch>-<git-sha>` + `<arch>-latest` per architecture. The
+      # multi-arch manifest combine step (regctl manifest put) currently
+      # fails due to a substrate/regctl CLI mismatch — tracked in task #38
+      # — but the per-arch tags are pushed successfully BEFORE that step,
+      # so the canonical references still exist.
       # Runtime tools the failover drill subprocess-invokes:
       #   curl     — continuous HTTP probe loop + Confluence publishing
       #   gh       — optional trigger of existing akeyless GH workflows
